@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package>
+  <name>service_server_client_pkg</name>
+  <version>0.0.0</version>
+  <description>
+   todo
+  </description>
+  <maintainer email="fetullah.atas@nmbu.no">Fetullah Atas</maintainer>
+  <license>BSD</license>
+
+  <url type="website">http://www.ros.org/wiki/</url>
+  <url type="bugtracker">https://github.com/ros/ros_tutorials/issues</url>
+  <url type="repository">https://github.com/ros/ros_tutorials</url>
+
+  <author email="fetullah.atas@nmbu.no">Fetullah Atas</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>message_runtime</build_depend>
+
+  <run_depend>rospy</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
+
+</package>

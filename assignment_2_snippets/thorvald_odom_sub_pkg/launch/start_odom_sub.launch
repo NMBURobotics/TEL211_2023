@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+    <node name="odom_subscriber" pkg="thorvald_odom_sub_pkg" type="odom_subscriber.py" output="screen">
+        <param name="topic_name" value="odometry/gazebo" />
+    </node>
+
+</launch>

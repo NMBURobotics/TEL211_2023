@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+
+import rospy
+from example_cpp_python.msg import StringStamped
+
+
+def chat_callback(msg):
+    rospy.loginfo('I can hear, [%s] and the time is: %s', msg.data, msg.header.stamp)
+
+
+def main():
+    rospy.init_node('listener_node')
+    rospy.Subscriber('chitchat', StringStamped, chat_callback)
+    rospy.spin()
+
+
+if __name__ == '__main__':
+    main()

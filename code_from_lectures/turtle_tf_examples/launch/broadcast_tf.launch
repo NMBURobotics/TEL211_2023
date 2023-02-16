@@ -1,0 +1,26 @@
+<launch>
+
+    <!-- Turtlesim -->
+    <node pkg="turtlesim" type="turtlesim_node" name="turtlesim_node" />
+
+    <!-- Turtle teleop key for teleoping turtle1 -->
+    <node pkg="turtlesim" type="turtle_teleop_key" name="turtle_teleop_key" output="screen" />
+
+    <!-- IMRT virtual gamepad for teleoping turtle1 -->
+    <!--
+    <node pkg="imrt_virtual_joy" type="virtual_gamepad" name="virtual_gamepad" />
+    <node pkg="imrt_teleop" type="imrt_teleop" name="imrt_teleop">
+        <remap from="teleop/cmd_vel" to="turtle1/cmd_vel" />
+    </node>
+    -->
+
+    <!-- Broadcast TF for turtle1 -->
+    <node pkg="turtle_tf_examples" type="turtle_tf_broadcaster" name="turtle1_tf_broadcaster">
+        <param name="turtle" value="turtle1"/>
+    </node>
+    
+    <!-- Look at TFs in Rviz -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-f world"/>
+
+
+</launch>

@@ -1,0 +1,11 @@
+<launch>
+
+    <param name="robot_description" command="xacro $(find exarm_description)/urdf/robot_description_gazebo_no_control.urdf.xacro" />
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch" />
+
+    <node pkg="gazebo_ros" type="spawn_model" name="exarm_spawner"
+        args="-urdf -param robot_description -model exarm"/>
+
+</launch>

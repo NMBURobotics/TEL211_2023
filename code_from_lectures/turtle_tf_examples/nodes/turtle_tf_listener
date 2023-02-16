@@ -1,0 +1,44 @@
+#!/usr/bin/env python
+
+import rospy
+from turtlesim.srv import Spawn, SpawnRequest
+from geometry_msgs.msg import Twist
+import tf
+import math
+
+def main():
+    rospy.init_node('turtle_tf_listener')
+
+    tf_listener = tf.TransformListener()
+
+    cmd_pub = rospy.Publisher('tomhanks/cmd_vel', Twist, queue_size=1)
+
+    rospy.wait_for_service('spawn')
+    spawner = rospy.ServiceProxy('spawn', Spawn)
+    spawn_req = SpawnRequest()
+    spawn_req.x = 4
+    spawn_req.y = 2
+    spawn_req.theta = 0
+    spawn_req.name = 'tomhanks'
+    spawner(spawn_req)
+
+    rate = rospy.Rate(10)
+
+    while not rospy.is_shutdown():
+        try:
+            (pos, rot) = tf_listener.lookupTransform('tomhanks', 'turtle1', rospy.Time(0))
+        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+            continue
+        print("{}, {}".format(pos[0], pos[1]))
+        vx = 0.5 * math.sqrt(pos[0]**2 + pos[1]**2)
+        wz = 4 * math.atan2(pos[1], pos[0])
+        cmd_msg = Twist()
+        cmd_msg.linear.x = vx
+        cmd_msg.angular.z = wz
+        cmd_pub.publish(cmd_msg)
+
+        rate.sleep()
+
+
+if __name__ == '__main__':
+    main()

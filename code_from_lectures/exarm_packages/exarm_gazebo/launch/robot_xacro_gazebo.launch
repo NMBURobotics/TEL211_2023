@@ -1,0 +1,19 @@
+<launch>
+
+    <param name="robot_description" command="xacro $(find exarm_description)/urdf/robot_description_gazebo.urdf.xacro" />
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch" />
+
+    <node pkg="gazebo_ros" type="spawn_model" name="exarm_spawner"
+        args="-urdf -param robot_description -model exarm"/>
+
+    <rosparam command="load" file="$(find exarm_control)/config/control.yaml" />
+    
+    <node pkg="controller_manager" type="spawner" name="arm_controller_spawner"
+        args="arm_joint_publisher joint_1_position_controller joint_2_position_controller joint_3_position_controller"
+        output="screen" />
+
+
+
+</launch>

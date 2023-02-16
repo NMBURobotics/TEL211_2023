@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="https://www.ros.org/wiki/xacro" name="exarm">
+
+
+    <!-- VARIABLES -->
+    <xacro:property name="base_side_length" value="0.5" />
+    <xacro:property name="base_side_height" value="0.1" />
+    <xacro:property name="arm_link_x" value="0.1" />
+    <xacro:property name="arm_link_y" value="0.05" />
+    <xacro:property name="arm_link_z" value="0.6" />
+    <xacro:property name="arm_joint_offset" value="0.1" />
+
+
+    <!-- MATERIALS -->
+    <material name="red">
+        <color rgba="1 0 0 1" />
+    </material>
+
+    <material name="green">
+        <color rgba="0 1 0 1" />
+    </material>
+
+    <material name="blue">
+        <color rgba="0 0 1 1" />
+    </material>
+    
+    <material name="black">
+        <color rgba="0 0 0 1" />
+    </material>
+
+    
+    <!-- ARM LINK MACRO -->
+    <xacro:macro name="create_arm_link" params="name color">
+        <link name="${name}">
+            <visual>
+                <origin xyz="0 0 ${arm_link_z/2 - arm_joint_offset}" rpy="0 0 0"/>
+                <geometry>
+                    <box size="${arm_link_x} ${arm_link_y} ${arm_link_z}" />
+                </geometry>
+                <material name="${color}" />
+            </visual>
+            <collision>
+                <origin xyz="0 0 ${arm_link_z/2 - arm_joint_offset}" rpy="0 0 0"/>
+                <geometry>
+                    <box size="${arm_link_x} ${arm_link_y} ${arm_link_z}" />
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="1" />
+                <origin xyz="0 0 ${arm_link_z/2 - arm_joint_offset}" />
+                <inertia  ixx="0.0302083333333" ixy="0.0"             ixz="0.0"
+                                                iyy="0.0302083333333" iyz="0.0" 
+                                                                      izz="0.00104166666667" />
+            </inertial>
+        </link>
+        
+        <gazebo reference="${name}">
+            <mu1 value="1.0"/>
+            <mu2 value="1.0"/>
+            <kp value="1000000.0"/>
+            <kd value="1.0"/>
+        </gazebo>
+
+    </xacro:macro>
+
+
+    <!-- LINKS -->
+    <link name="base_link" />
+
+    <link name="link_0">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="${base_side_length} ${base_side_length} ${base_side_height}" />
+            </geometry>
+            <material name="black" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="${base_side_length} ${base_side_length} ${base_side_height}" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="40" />
+            <origin xyz="0 0 0" />
+            <inertia  ixx="0.866666666667" ixy="0.0"            ixz="0.0"
+                                           iyy="0.866666666667" iyz="0.0"
+                                                                izz="1.66666666667" />
+        </inertial>
+    </link>
+
+    <gazebo reference="link_0">
+        <material value="Gazebo/Black" />
+        <mu1 value="1.0" />
+        <mu2 value="1.0" />
+        <kp value="1000000.0" />
+        <kd value="1.0" />
+    </gazebo>
+
+    <xacro:create_arm_link name="link_1" color="blue" />
+    <xacro:create_arm_link name="link_2" color="green" />
+    <xacro:create_arm_link name="link_3" color="red" />
+  
+
+    <!-- JOINTS -->
+    <joint name="joint_0" type="fixed" >
+        <parent link="base_link" />
+        <child link="link_0" />
+        <origin xyz="0 0 ${base_side_height/2}" rpy="0 0 0" />
+    </joint>
+
+    <joint name="joint_1" type="revolute">
+        <parent link="link_0" />
+        <child link="link_1" />
+        <origin xyz="0 0 ${base_side_height/2 + arm_joint_offset}" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="${-pi}" upper="${pi}" effort="40" velocity="2.0"/>
+    </joint> 
+    
+    <joint name="joint_2" type="revolute">
+        <parent link="link_1" />
+        <child link="link_2" />
+        <origin xyz="0 ${arm_link_y} ${arm_link_z - 2*arm_joint_offset}" rpy="0 0 0" />
+        <axis xyz="0 1 0" />
+        <limit lower="-2.0" upper="2.0" effort="40" velocity="2.0"/>
+    </joint>
+
+    <joint name="joint_3" type="revolute">
+        <parent link="link_2" />
+        <child link="link_3" />
+        <origin xyz="0 ${-arm_link_y} ${arm_link_z - 2*arm_joint_offset}" rpy="0 0 0" />
+        <axis xyz="0 1 0" />
+        <limit lower="-2.0" upper="2.0" effort="40" velocity="2.0"/>
+    </joint>
+
+
+</robot>

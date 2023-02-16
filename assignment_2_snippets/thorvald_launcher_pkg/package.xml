@@ -1,0 +1,29 @@
+<?xml version="1.1"?>
+<package format="2">
+  <name>thorvald_launcher_pkg</name>
+  <version>0.0.0</version>
+  <description>
+   todo
+  </description>
+  <maintainer email="fetullah.atas@nmbu.no">Fetullah Atas</maintainer>
+  <license>BSD</license>
+
+  <url type="website">http://www.ros.org/wiki/</url>
+  <url type="bugtracker">https://github.com/ros/ros_tutorials/issues</url>
+  <url type="repository">https://github.com/ros/ros_tutorials</url>
+
+  <author email="fetullah.atas@nmbu.no">Fetullah Atas</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>roscpp</build_depend>
+
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>roscpp</exec_depend>
+
+</package>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+    <rosparam command="load" file="$(find service_server_client_pkg)/params/config.yaml" />
+    <node pkg="service_server_client_pkg" type="list_folders_server.py" name="list_folders_server" output="screen" />
+    <node pkg="service_server_client_pkg" type="list_folders_client.py" name="list_folders_client" output="screen" />
+
+</launch>

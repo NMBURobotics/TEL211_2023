@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+
+    <include file="$(find thorvald_bringup)/launch/thorvald_example.launch"></include>
+
+    <include file="$(find gazebo_ros)/launch/shapes_world.launch"></include>
+
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -x 5 -z 1 -model thorvald_ii" />
+
+</launch>

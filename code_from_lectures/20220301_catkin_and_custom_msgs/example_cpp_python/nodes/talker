@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+
+import rospy
+from example_cpp_python.msg import StringStamped
+
+
+def main():
+    rospy.init_node('talker')
+    string_pub = rospy.Publisher('chitchat', StringStamped, queue_size=1)
+    rate = rospy.Rate(1)
+
+    counter = 0
+
+    rospy.loginfo('Talker started')
+
+    while not rospy.is_shutdown():
+        string_msg = StringStamped()
+        string_msg.header.stamp = rospy.Time.now()
+        string_msg.data = "I want {} ice cream cones!".format(counter)
+        string_pub.publish(string_msg)
+        counter += 1
+        rate.sleep()
+
+
+
+if __name__ == '__main__':
+    main()

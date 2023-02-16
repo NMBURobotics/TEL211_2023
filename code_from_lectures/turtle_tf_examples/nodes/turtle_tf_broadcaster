@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+
+import rospy
+import tf
+from tf.transformations import quaternion_from_euler
+from turtlesim.msg import Pose
+
+def handle_turtle_pose(msg, turtlename):
+    tf_broadcaster = tf.TransformBroadcaster()
+    turtle_pos = (msg.x, msg.y, 0)
+    turtle_rot = quaternion_from_euler(0, 0, msg.theta)
+    tf_broadcaster.sendTransform(turtle_pos,
+                                 turtle_rot,
+                                 rospy.Time.now(),
+                                 turtlename,
+                                 'world')
+    
+
+
+def main():
+    rospy.init_node('turtle_tf_broadcaster')
+    turtlename = rospy.get_param('~turtle', 'turtle1')
+    rospy.Subscriber('{}/pose'.format(turtlename),
+                     Pose,
+                     handle_turtle_pose,
+                     turtlename)
+    rospy.loginfo('Broadcasting TF for %s', turtlename)
+    rospy.spin()
+
+
+if __name__ == '__main__':
+    main()
